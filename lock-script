@@ -82,7 +82,7 @@ while [ 1 -eq 1 ]; do
         echo -e "                                         \r"
         echo -en $Y"   [$R!$Y]$R   Wrong Pass, Try again $W \r"
         sleep 1.5
-        # echo -en "                                          $Up2"
+        echo -en "                                          $Up2"
     fi
     if [ $attempt -eq 1 ]; then
         echo -e $Y"\r$Up1   Enter Pass:$R $pin             "
