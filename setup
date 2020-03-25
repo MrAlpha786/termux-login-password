@@ -26,6 +26,7 @@ banner () {
 
 export VAL=$PREFIX/share/val
 if [ -f $VAL ]; then
+    banner
     echo -e $Y" [!] Setting Lock.......................$R ERR"
     echo -e $R" [*] Lock already exists.\r"
     echo -e $R" [!] Exiting...                               "
