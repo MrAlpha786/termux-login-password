@@ -17,17 +17,25 @@ Just enter following commands in respective order:
 
 1.
 ```bash
+apt-get update && apt-get upgrade -y
+```
+2.
+```bash
+apt-get install wget curl -y
+```
+3.
+```bash
 wget https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/setup
 ```
 or
 ```bash
 curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/setup > setup
 ```
-2.  
+4.  
 ```bash
 chmod u+x setup
 ```
-3.
+5.
 ```bash
 bash setup
 ```
