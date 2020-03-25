@@ -110,6 +110,7 @@ del_Pass () {
     tmpin=0
     get_Pass
     rm -f $VAL
+    rm -f $PREFIX/etc/lockscr
     sed -i '/export VAL/d' $FILE
     clear
     exit
