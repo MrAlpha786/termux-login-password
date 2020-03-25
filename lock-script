@@ -66,9 +66,9 @@ while [ 1 -eq 1 ]; do
     echo -en "                                                            \r"
     echo -en "                                                            \r"
     echo -e $Y"   Enter Pass:$W \c"
-    while read  -r -t 0; do read  -r; done
     stty echo 
-    read   pin
+    while read  -r -t 0; do read  -r; done
+    read pin
     stty -echo       
     if [[ $pin =~ $n ]]; then
         return
