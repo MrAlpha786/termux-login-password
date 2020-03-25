@@ -1,0 +1,129 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+trap  "" 0 1 2 3 15 20
+# Colors and other variables
+R='\033[1;31m'
+B='\033[1;34m'
+C='\033[0;36m'
+G='\033[1;32m'
+W='\033[1;37m'
+Y='\033[1;33m'
+Up2='\u001b[3A'
+Up1='\u001b[1A'
+attempt=3
+line=12
+tmpin=1
+FILE=/data/data/com.termux/files/usr/bin/login
+
+clear
+while [ $line -gt 0 ]; do
+echo
+let line=$(($line-1))
+done
+echo
+echo -e $B"  ┌─────────────────────────┐ "
+echo -e $B"  │$C     TERMUX LOGIN        $B│"
+echo -e $B"  └─────────────────────────┘ "
+echo
+echo -en $Y"  [$R Q $Y]$C Exit."
+echo
+echo
+
+set_Pass () {
+    rm -f $VAL
+    while [ ! -f $VAL ]; do
+        echo -en "                                                    \r"
+        echo -en $Y"   Set new Pass: $W"
+        read  pin
+        if [[ ${pin:0:1} =~ "q" ]] || [[ ${pin:0:1} =~ "Q" ]] && [[ -z ${pin:1} ]]; then
+            rm -f $VAL
+            exit 1
+        else
+            echo -en "$Up1                                   \r"
+            echo -en $Y"   Confirm Pass: $W"
+            read  tmpin
+        fi
+
+        if [[ ${tmpin:0:1} =~ "q" ]] || [[ ${tmpin:0:1} =~ "Q" ]] && [[ -z ${tmpin:1} ]]; then
+            rm -f $VAL
+            exit 1
+        elif [[ $pin =~ $tmpin ]]; then
+            touch $VAL
+            echo $pin > $VAL
+            echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set. Press ENTER $W \r"
+            read
+            echo -en "$Up1                                                     \r"
+            read  n < $VAL
+            exit 0
+        else
+            echo -en $Y"$Up1   [$R!$Y]$R Oops! Try again. $W \r"
+            sleep 1.5
+            echo -en "                                         \r"
+        fi
+    done
+} 
+
+get_Pass () {
+while [ 1 -eq 1 ]; do
+    echo -en "                                                            \r"
+    echo -en "                                                            \r"
+    echo -e $Y"   Enter Pass:$W \c"
+    while read  -r -t 0; do read  -r; done
+    read   pin
+    stty -echo       
+    if [[ $pin =~ $n ]]; then
+        return
+    elif [[ ${pin:0:1} =~ "q" ]] || [[ ${pin:0:1} =~ "Q" ]] && [[ -z ${pin:1} ]]; then
+        exit 1
+    elif [[ ${pin:0:1} =~ "d" ]] || [[ ${pin:0:1} =~ "D" ]] && [[ -z ${pin:1} ]] && [[ $tmpin -ne 0 ]]; then
+        del_Pass
+    elif [ $attempt -ge 2 ] || [ -z $pin ]; then
+        echo -e $Y"\r$Up1   Enter Pass:$R $pin               "
+        echo -e "                                         \r"
+        echo -en $Y"   [$R!$Y]$R   Wrong Pass, Try again $W \r"
+        sleep 1.5
+        # echo -en "                                          $Up2"
+    fi
+    if [ $attempt -eq 1 ]; then
+        echo -e $Y"\r$Up1   Enter Pass:$R $pin             "
+        echo -e "                                          \r"
+        sec=10
+        while [ $sec -gt 0 ]; do
+            echo -en $Y"   [$R!$Y]$R Too many wrong attempts. Please wait $sec sec \r"
+            sleep 1
+            let sec=$(($sec-1))
+        done
+        echo -en "                                                                   $Up2"
+        let attempt=4
+    fi
+    let attempt=$(($attempt-1))
+    
+    stty echo 
+done
+}  
+
+del_Pass () {
+    echo -e "                        $Up2$Up1"
+    echo -e $Y"   [$R ! $Y]$C To delete Pass. Please, confirm your Pass."
+    echo -e $Y"   [$R Q $Y]$C Exit."
+    echo "                               "
+    tmpin=0
+    get_Pass
+    rm -f $VAL
+    clear
+    exit
+}
+
+if [[ -f $VAL && -r $VAL && -s $VAL ]]; then
+    read  n < $VAL
+else
+    set_Pass
+fi
+
+echo -e "                        $Up2"
+echo -en $Y"   [$R Q $Y]$C Exit.   $Y [$R D $Y]$C Delete Pass."
+echo
+echo
+get_Pass
+clear
+exit
