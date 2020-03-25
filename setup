@@ -23,8 +23,6 @@ banner () {
     echo
 }
 
-banner
-echo -en $Y" [*] Setting Lock.......................\r"
 
 export VAL=$PREFIX/share/val
 if [ -f $VAL ]; then
@@ -36,7 +34,7 @@ bash $PREFIX/etc/lockscr
 err=$?
 unset VAL
 banner
-echo -e $Y" [*] Setting Lock.......................\r"
+echo -en $Y" [*] Setting Lock.......................\r"
 
 if [ ${err} -eq 0 ]; then
     sed -i '2 a export VAL=$PREFIX/share/val; bash $PREFIX/etc/lockscr; [ $? -ne 0 ] && exit; unset VAL;' $FILE
