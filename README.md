@@ -1,4 +1,4 @@
-# termux-login-pin
+# termux-login-password
 ### Created by [MrAlpha786](https://github.com/MrAlpha786)
 ***Request:*** Please use or modify this with proper credit. Add link to my github in your README.md.
 
