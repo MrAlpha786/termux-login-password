@@ -67,6 +67,7 @@ while [ 1 -eq 1 ]; do
     echo -en "                                                            \r"
     echo -e $Y"   Enter Pass:$W \c"
     while read  -r -t 0; do read  -r; done
+    stty echo 
     read   pin
     stty -echo       
     if [[ $pin =~ $n ]]; then
@@ -96,7 +97,6 @@ while [ 1 -eq 1 ]; do
     fi
     let attempt=$(($attempt-1))
     
-    stty echo 
 done
 }  
 
