@@ -11,14 +11,12 @@ Y='\033[1;33m'
 Up2='\u001b[3A'
 Up1='\u001b[1A'
 attempt=3
-line=12
 tmpin=1
 FILE=/data/data/com.termux/files/usr/bin/login
 
 clear
-while [ $line -gt 0 ]; do
-echo
-let line=$(($line-1))
+for i in {1..12}; do
+    echo
 done
 echo
 echo -e $B"  ┌─────────────────────────┐ "
