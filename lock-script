@@ -12,7 +12,7 @@ Up2='\u001b[3A'
 Up1='\u001b[1A'
 attempt=3
 tmpin=1
-FILE=/data/data/com.termux/files/usr/bin/login
+FILE=$(which login)
 
 clear
 for i in {1..12}; do
