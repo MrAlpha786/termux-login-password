@@ -90,12 +90,12 @@ while [ 1 -eq 1 ]; do
         while [ $sec -gt 0 ]; do
             echo -en $Y"   [$R!$Y]$R Too many wrong attempts. Please wait $sec sec \r"
             sleep 1
-            let sec=$(($sec-1))
+            ((sec--))
         done
         echo -en "                                                                   $Up2"
         let attempt=4
     fi
-    let attempt=$(($attempt-1))
+    ((attempt--))
     
 done
 }  
