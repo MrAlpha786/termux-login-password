@@ -1,5 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+## Author: MrAlpha786
 
 #colors and other variables.
 R='\033[1;31m'
@@ -47,10 +48,10 @@ if [ ${err} -eq 0 ]; then
 
 #else skip setup and exit
 else
-    rm -rf $PREFIX/etc/lockscr
+    rm -f $PREFIX/etc/lockscr
     echo -e $Y" [!] Setting Lock.......................$R ERR"
     echo
     echo -e $R" [!] Exiting...                               "
-    exit
 fi
+exit
 
