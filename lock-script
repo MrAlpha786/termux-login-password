@@ -43,8 +43,8 @@ set_Pass () {
         if [[ ${tmpin} =~ ^(q|Q)$ ]]; then
             exit 1
         elif [[ $pin =~ $tmpin ]]; then
-            pin=$(echo $pin | sha256sum)
-            sed -i "2 a VAL=$pin" $FILE
+            pin=$(echo $tmpin | sha256sum)
+            sed -i "2 a VAL=\"$pin\"" $FILE
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
             sleep 1.5
             exit 0
@@ -85,7 +85,7 @@ get_Pass () {
 
 ch_Pass () {
     echo -e "${clsln}$Up2$Up1"
-    echo -e $Y"   [$R ! $Y]$C Confirm old Pass."
+    echo -e $Y"   [$R ! $Y]$C Confirm old Pass.             "
     echo -e $Y"   [$R Q $Y]$C Exit."
     echo "                               "
     tmpin=0
