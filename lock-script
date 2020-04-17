@@ -50,7 +50,8 @@ set_Pass () {
             sed -i "2 a VAL=\"$pin\"" $FILE
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
             sleep 1.5
-            return 0
+            clear
+            exit 0
         else
             echo -en $Y"$Up1   [$R!$Y]$R Oops! Try again.$W\r"
             sleep 1.5
@@ -94,8 +95,6 @@ ch_Pass () {
     get_Pass
     stty echo
     [[ $? -eq 0 ]] && sed -i '/VAL=/d' $FILE && set_Pass
-    clear
-    exit
 }
 
 "$@"
