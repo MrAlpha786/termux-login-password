@@ -65,8 +65,8 @@ get_Pass () {
         while read  -r -t 0; do read  -r; done
         read pin
         stty -echo 
-        pin=$(echo $pin | sha256sum)
-        if [[ $pin =~ $n ]]; then
+        pin1=$(echo $pin | sha256sum)
+        if [[ ${pin1} =~ $VAL ]]; then
             return
         elif [[ ${pin} =~ ^(q|Q)$ ]]; then
             exit 1
