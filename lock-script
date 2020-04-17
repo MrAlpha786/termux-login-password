@@ -14,6 +14,7 @@ tmpin=1
 clsln="                                            "
 FILE=$(which login)
 
+banner () {
 clear
 for i in {1..12}; do
     echo
@@ -26,8 +27,10 @@ echo
 echo -en $Y"   [$R Q $Y]$C Exit."
 echo
 echo
+}
 
 set_Pass () {
+    banner
     while true; do
         echo -en "${clsln}\r"
         echo -en $Y"   Set new Pass: $W"
@@ -47,7 +50,7 @@ set_Pass () {
             sed -i "2 a VAL=\"$pin\"" $FILE
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
             sleep 1.5
-            exit 0
+            return 0
         else
             echo -en $Y"$Up1   [$R!$Y]$R Oops! Try again.$W\r"
             sleep 1.5
@@ -84,12 +87,12 @@ get_Pass () {
 }  
 
 ch_Pass () {
-    echo -e "${clsln}$Up2$Up1"
+    banner
     echo -e $Y"   [$R ! $Y]$C Confirm old Pass.             "
-    echo -e $Y"   [$R Q $Y]$C Exit."
     echo "                               "
     tmpin=0
     get_Pass
+    stty echo
     [[ $? -eq 0 ]] && sed -i '/VAL=/d' $FILE && set_Pass
     clear
     exit
@@ -97,6 +100,7 @@ ch_Pass () {
 
 "$@"
 
+banner
 echo -e "${clsln}$Up2"
 echo -en $Y"   [$R Q $Y]$C Exit.   $Y [$R C $Y]$C Change Pass."
 echo
