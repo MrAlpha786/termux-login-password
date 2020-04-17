@@ -67,7 +67,7 @@ get_Pass () {
         stty -echo 
         pin1=$(echo $pin | sha256sum)
         if [[ ${pin1} =~ $VAL ]]; then
-            return
+            return 0
         elif [[ ${pin} =~ ^(q|Q)$ ]]; then
             exit 1
         elif [[ ${pin} =~ ^(c|C)$ ]] && [[ $tmpin -ne 0 ]]; then
@@ -90,7 +90,7 @@ ch_Pass () {
     echo "                               "
     tmpin=0
     get_Pass
-    [[ $? -eq 0 ]] && sed -i 'VAL=/d' $FILE && set_Pass
+    [[ $? -eq 0 ]] && sed -i '/VAL=/d' $FILE && set_Pass
     clear
     exit
 }
