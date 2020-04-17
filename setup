@@ -26,7 +26,6 @@ banner () {
 }
 
 
-curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK
 
 #Check if lock already exists.
 grep -q "export VAL" $FILE; 
@@ -45,6 +44,7 @@ if [ $? -eq 0 ]; then
 #if lock do not exist. set one
 else
 
+    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK
     banner
     echo -en $Y" [*] Setting Lock.......................\r"
     sleep 1.5
