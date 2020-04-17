@@ -32,6 +32,7 @@ grep -q "export VAL" $FILE;
 
 #if true then remove lock
 if [ $? -eq 0 ]; then
+    banner
     echo -en $Y" [*] Removing Lock......................\r"
     sleep 1
     rm -f $LOCK
