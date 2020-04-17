@@ -33,7 +33,6 @@ grep -q "export VAL" $FILE;
 #if true then remove lock
 if [ $? -eq 0 ]; then
     echo -en $Y" [*] Removing Lock......................\r"
-    echo
     sleep 1
     rm -f $LOCK
     sed -i '/VAL=/d' $FILE
@@ -48,7 +47,7 @@ else
     banner
     echo -en $Y" [*] Setting Lock.......................\r"
     sleep 1.5
-    bash $LOCK
+    bash $LOCK set_Pass
     err=$?
 
     banner
@@ -56,7 +55,7 @@ else
     #if true set lock
     if [ $err -eq 0 ]; then
 
-        sed -i "3 a export VAL; bash $LOCK set_Pass; [ $? -ne 0 ] && exit; unset VAL;" $FILE
+        sed -i "3 a export VAL; bash $LOCK; [ $? -ne 0 ] && exit; unset VAL;" $FILE
         sleep 1.5
         echo -e $Y" [!] Setting Lock.......................$G DONE"
         echo

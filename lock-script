@@ -95,6 +95,7 @@ ch_Pass () {
     exit
 }
 
+"$@"
 
 echo -e "${clsln}$Up2"
 echo -en $Y"   [$R Q $Y]$C Exit.   $Y [$R C $Y]$C Change Pass."
