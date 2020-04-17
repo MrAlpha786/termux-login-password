@@ -95,7 +95,7 @@ ch_Pass () {
     exit
 }
 
-if [[ -z $VAL ]]; then
+if [[ -n $VAL ]]; then
     set_Pass
 fi
 
