@@ -95,9 +95,6 @@ ch_Pass () {
     exit
 }
 
-if [[ -n $VAL ]]; then
-    set_Pass
-fi
 
 echo -e "${clsln}$Up2"
 echo -en $Y"   [$R Q $Y]$C Exit.   $Y [$R C $Y]$C Change Pass."
