@@ -48,7 +48,7 @@ else
     banner
     echo -en $Y" [*] Setting Lock.......................\r"
     sleep 1.5
-    lockscr
+    bash $LOCK
     err=$?
 
     banner
