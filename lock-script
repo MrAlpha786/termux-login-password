@@ -49,7 +49,7 @@ set_Pass () {
             pin=$(echo $tmpin | sha256sum)
             sed -i "2 a VAL=\"$pin\"" $FILE
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
-            sleep 1.5
+            sleep 1
             clear
             exit 0
         else
@@ -97,7 +97,7 @@ ch_Pass () {
     [[ $? -eq 0 ]] && sed -i '/VAL=/d' $FILE && set_Pass
 }
 
-"$@"
+[[ $# -ne 0 ]] && "$@" && exit
 
 banner
 echo -e "${clsln}$Up2"
