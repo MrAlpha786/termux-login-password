@@ -56,7 +56,7 @@ else
     #if true set lock
     if [ $err -eq 0 ]; then
 
-        sed -i '2 a export VAL; bash $(which lockscr); [ $? -ne 0 ] && exit; unset VAL;' $FILE
+        sed -i '3 a export VAL; bash $(which lockscr); [ $? -ne 0 ] && exit; unset VAL;' $FILE
         sleep 1.5
         echo -e $Y" [!] Setting Lock.......................$G DONE"
         echo
