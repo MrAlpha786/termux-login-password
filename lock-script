@@ -47,7 +47,7 @@ set_Pass () {
             exit 1
         elif [[ $pin =~ $tmpin ]]; then
             touch $VAL
-            echo $pin > $VAL
+            echo $pin | sha256sum > $VAL
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
             sleep 1.5
             exit 0
@@ -67,7 +67,8 @@ get_Pass () {
         stty echo 
         while read  -r -t 0; do read  -r; done
         read pin
-        stty -echo       
+        stty -echo 
+        pin=$(echo $pin | sha256sum)
         if [[ $pin =~ $n ]]; then
             return
         elif [[ ${pin} =~ ^(q|Q)$ ]]; then
