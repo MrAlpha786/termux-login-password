@@ -8,9 +8,10 @@ C='\033[0;36m'
 B='\033[1;34m'
 G='\033[1;32m'
 Y='\033[1;33m'
+U='\033[3A'
 FILE=$(which login)
+LOCK="$PREFIX/bin/applets/lockscr"
 
-curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $PREFIX/etc/lockscr
 
 #Banner
 banner () {
@@ -25,33 +26,48 @@ banner () {
 }
 
 
-export VAL=$PREFIX/share/val
-if [ -f $VAL ]; then
-    banner
-    echo -e $Y" [!] Setting Lock.......................$R ERR"
-    echo -e $R" [*] Lock already exists.\r"
-    echo -e $R" [!] Exiting...                               "
-    exit 1
-fi
+curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK
 
-bash $PREFIX/etc/lockscr
-err=$?
-unset VAL
-banner
-echo -en $Y" [*] Setting Lock.......................\r"
+#Check if lock already exists.
+grep -q "export VAL" $FILE; 
 
-if [ ${err} -eq 0 ]; then
-    sed -i '2 a export VAL=$PREFIX/share/val; bash $PREFIX/etc/lockscr; [ $? -ne 0 ] && exit; unset VAL;' $FILE
-    sleep 2
-    echo -e $Y" [!] Setting Lock.......................$G DONE"
+#if true then remove lock
+if [ $? -eq 0 ]; then
+    echo -e $Y" [*] Removing Lock......................\r"
+    echo
+    sleep 1
+    rm -f $LOCK
+    sed -i '/VAL=/d' $FILE
+    sed -i '/export VAL/d' $FILE
+    echo -e $Y" [!] Removing Lock......................$G DONE"
     echo
 
-#else skip setup and exit
+#if lock do not exist. set one
 else
-    rm -f $PREFIX/etc/lockscr
-    echo -e $Y" [!] Setting Lock.......................$R ERR"
-    echo
-    echo -e $R" [!] Exiting...                               "
+
+    banner
+    echo -en $Y" [*] Setting Lock.......................\r"
+    sleep 1.5
+    lockscr
+    err=$?
+
+    banner
+    echo -en $Y" [*] Setting Lock.......................\r"
+    #if true set lock
+    if [ $err -eq 0 ]; then
+
+        sed -i '2 a export VAL; bash $(which lockscr); [ $? -ne 0 ] && exit; unset VAL;' $FILE
+        sleep 1.5
+        echo -e $Y" [!] Setting Lock.......................$G DONE"
+        echo
+
+    #else skip setup and exit
+    else
+        rm -f $LOCK
+        echo -e $Y" [!] Setting Lock.......................$R ERR"
+        echo
+        echo -e $R" [!] Exiting...                               "
+        exit
+    fi
 fi
-exit
 

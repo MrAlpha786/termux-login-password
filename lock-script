@@ -28,13 +28,11 @@ echo
 echo
 
 set_Pass () {
-    rm -f $VAL
-    while [ ! -f $VAL ]; do
+    while true; do
         echo -en "${clsln}\r"
         echo -en $Y"   Set new Pass: $W"
         read  pin
         if [[ ${pin} =~ ^(q|Q)$ ]]; then
-            rm -f $VAL
             exit 1
         else
             echo -en "${Up1}${clsln}\r"
@@ -43,11 +41,10 @@ set_Pass () {
         fi
 
         if [[ ${tmpin} =~ ^(q|Q)$ ]]; then
-            rm -f $VAL
             exit 1
         elif [[ $pin =~ $tmpin ]]; then
-            touch $VAL
-            echo $pin | sha256sum > $VAL
+            pin=$(echo $pin | sha256sum)
+            sed -i "2 a VAL=$pin" $FILE
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
             sleep 1.5
             exit 0
@@ -73,8 +70,8 @@ get_Pass () {
             return
         elif [[ ${pin} =~ ^(q|Q)$ ]]; then
             exit 1
-        elif [[ ${pin} =~ ^(d|D)$ ]] && [[ $tmpin -ne 0 ]]; then
-            del_Pass
+        elif [[ ${pin} =~ ^(c|C)$ ]] && [[ $tmpin -ne 0 ]]; then
+            ch_Pass
         else
             echo -e $Y"\r$Up1   Enter Pass:$R $pin   "
             echo -e "${clsln}\r"
@@ -86,28 +83,24 @@ get_Pass () {
     done
 }  
 
-del_Pass () {
+ch_Pass () {
     echo -e "${clsln}$Up2$Up1"
-    echo -e $Y"   [$R ! $Y]$C To delete Pass. Please, confirm your Pass."
+    echo -e $Y"   [$R ! $Y]$C Confirm old Pass."
     echo -e $Y"   [$R Q $Y]$C Exit."
     echo "                               "
     tmpin=0
     get_Pass
-    rm -f $VAL
-    rm -f $PREFIX/etc/lockscr
-    sed -i '/export VAL/d' $FILE
+    [[ $? -eq 0 ]] && sed -i 'VAL=/d' $FILE && set_Pass
     clear
     exit
 }
 
-if [[ -f $VAL && -r $VAL && -s $VAL ]]; then
-    read  n < $VAL
-else
+if [[ -z $VAL ]]; then
     set_Pass
 fi
 
 echo -e "${clsln}$Up2"
-echo -en $Y"   [$R Q $Y]$C Exit.   $Y [$R D $Y]$C Delete Pass."
+echo -en $Y"   [$R Q $Y]$C Exit.   $Y [$R C $Y]$C Change Pass."
 echo
 echo
 get_Pass
