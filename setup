@@ -44,11 +44,11 @@ if [ $? -eq 0 ]; then
 #if lock do not exist. set one
 else
 
-    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK
+    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK || echo -e "\nInternet Connection required" && exit 1
     banner
     echo -en $Y" [*] Setting Lock.......................\r"
     sleep 1.5
-    bash $LOCK set_Pass
+    bash $LOCK set_lock
     err=$?
 
     banner

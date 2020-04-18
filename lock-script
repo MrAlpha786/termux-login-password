@@ -30,7 +30,6 @@ echo
 }
 
 set_Pass () {
-    banner
     while true; do
         echo -en "${clsln}\r"
         echo -en $Y"   Set new Pass: $W"
@@ -93,11 +92,12 @@ ch_Pass () {
     echo "                               "
     tmpin=0
     get_Pass
+    echo
     stty echo
-    [[ $? -eq 0 ]] && sed -i '/VAL=/d' $FILE && set_Pass
+    sed -i '/VAL=/d' $FILE && set_Pass
 }
 
-[[ $# -ne 0 ]] && "$@" && exit
+[[ "$@" == "set_lock" ]] && set_Pass && exit
 
 banner
 echo -e "${clsln}$Up2"
