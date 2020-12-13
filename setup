@@ -28,10 +28,8 @@ banner () {
 
 
 #Check if lock already exists.
-grep -q "export VAL" $FILE; 
-
 #if true then remove lock
-if [ $? -eq 0 ]; then
+if grep -q "export VAL" $FILE; then
     banner
     echo -en $Y" [*] Removing Lock......................\r"
     sleep 1
@@ -44,7 +42,10 @@ if [ $? -eq 0 ]; then
 #if lock do not exist. set one
 else
 
-    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK || echo -e "\nInternet Connection required" && exit 1
+    if [ ! -d $PREFIX/bin/applets ]; then
+        mkdir -p $PREFIX/bin/applets
+    fi
+    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK || (echo -e "\nInternet Connection required" && exit 1)
     banner
     echo -en $Y" [*] Setting Lock.......................\r"
     sleep 1.5
