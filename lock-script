@@ -44,7 +44,7 @@ set_Pass () {
 
         if [[ ${tmpin} =~ ^(q|Q)$ ]]; then
             exit 1
-        elif [[ $pin =~ $tmpin ]]; then
+        elif [[ $pin = $tmpin ]]; then
             pin=$(echo $tmpin | sha256sum)
             sed -i "2 a VAL=\"$pin\"" $FILE
             echo -en $Y"$Up1   [$R!$Y]$G Great! new Pass set.$W\r"
@@ -57,19 +57,19 @@ set_Pass () {
             echo -en "${clsln}\r"
         fi
     done
-} 
+}
 
 get_Pass () {
     while true; do
         echo -en "${clsln}\r"
         echo -en "${clsln}\r"
         echo -e $Y"   Enter Pass:$W \c"
-        stty echo 
+        stty echo
         while read  -r -t 0; do read  -r; done
         read pin
-        stty -echo 
+        stty -echo
         pin1=$(echo $pin | sha256sum)
-        if [[ ${pin1} =~ $VAL ]]; then
+        if [[ ${pin1} = $VAL ]]; then
             return 0
         elif [[ ${pin} =~ ^(q|Q)$ ]]; then
             exit 1
@@ -82,9 +82,9 @@ get_Pass () {
             sleep 1.5
             echo -en "${clsln}$Up2"
         fi
-    
+
     done
-}  
+}
 
 ch_Pass () {
     banner
