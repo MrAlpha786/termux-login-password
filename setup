@@ -45,7 +45,8 @@ else
     if [ ! -d $PREFIX/bin/applets ]; then
         mkdir -p $PREFIX/bin/applets
     fi
-    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK || (echo -e "\nInternet Connection required" && exit 1)
+    curl https://raw.githubusercontent.com/MrAlpha786/termux-login-password/master/lock-script > $LOCK
+    [ $? -ne 0 ] && echo -e "\nInternet Connection required" && exit 1
     banner
     echo -en $Y" [*] Setting Lock.......................\r"
     sleep 1.5
